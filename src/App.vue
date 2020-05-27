@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="fillcontainer">
     <router-view />
   </div>
 </template>
@@ -11,3 +11,7 @@ export default Vue.extend({
   name: "App"
 });
 </script>
+
+<style lang="scss">
+@import './assets/style/common';
+</style>

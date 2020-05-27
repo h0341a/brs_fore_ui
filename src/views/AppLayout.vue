@@ -1,7 +1,12 @@
 <template>
   <v-app>
-    <v-app-bar app>
-      <v-app-bar-nav-icon @click="drawer=!drawer"></v-app-bar-nav-icon>选项
+    <v-app-bar app height="74">
+      <v-app-bar-nav-icon v-if="!drawer" @click="drawer=!drawer"></v-app-bar-nav-icon>
+      <v-icon v-else @click="drawer=!drawer">mdi-arrow-expand-left</v-icon>
+      <v-spacer></v-spacer>
+      <v-avatar color="teal" size="48">
+        <span class="white--text headline">Me</span>
+      </v-avatar>
     </v-app-bar>
     <v-navigation-drawer width="234" v-model="drawer" app disable-resize-watcher>
       <v-list-item>
