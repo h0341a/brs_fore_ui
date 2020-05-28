@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app height="74">
+    <v-app-bar app :hide-on-scroll="true" height="74">
       <v-app-bar-nav-icon v-if="!drawer" @click="drawer=!drawer"></v-app-bar-nav-icon>
       <v-icon v-else @click="drawer=!drawer">mdi-arrow-expand-left</v-icon>
       <v-spacer></v-spacer>
@@ -17,7 +17,7 @@
       </v-list-item>
       <v-divider></v-divider>
       <v-list dense nav>
-        <v-list-item v-for="item in items" :key="item.title" link>
+        <v-list-item v-for="item in items" :exact="true" :to="item.path" :key="item.title">
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -40,10 +40,10 @@ export default {
   data() {
     return {
       items: [
-        { title: "首页", icon: "mdi-view-dashboard" },
-        { title: "联系人", icon: "mdi-account-box-multiple" },
-        { title: "我的推荐", icon: "mdi-book" },
-        { title: "我的收藏", icon: "mdi-book" }
+        { path:'/home', title: "首页", icon: "mdi-view-dashboard" },
+        { path:'/friends', title: "联系人", icon: "mdi-account-box-multiple" },
+        { path:'/recommend', title: "我的推荐", icon: "mdi-book" },
+        { path:'/collection', title: "我的收藏", icon: "mdi-book" }
       ],
       drawer: true
     };

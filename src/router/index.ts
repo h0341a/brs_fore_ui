@@ -3,22 +3,37 @@ import VueRouter, { RouteConfig } from 'vue-router'
 
 Vue.use(VueRouter)
 
-const AppLayout = ()=>import('../views/AppLayout.vue')
-const Home = ()=>import('../views/Home.vue')
+const AppLayout = () => import('../views/AppLayout.vue')
+const Home = () => import('../views/Home.vue')
+const Friend = () => import('../views/Friend.vue')
+const Collection = () => import('../views/Collection.vue')
+const Recommend = () => import('../views/Recommend.vue')
 
-  const routes: Array<RouteConfig> = [
+const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'MainLayout',
     component: AppLayout,
-    children:[
+    children: [
       {
-        path:'/',
-        component:Home
+        path: '/',
+        component: Home
       },
       {
-        path:'/home',
-        component:Home
+        path: '/home',
+        component: Home
+      },
+      {
+        path: '/friends',
+        component: Friend
+      },
+      {
+        path: '/recommend',
+        component: Recommend
+      },
+      {
+        path: '/collection',
+        component: Collection
       }
     ]
   },
