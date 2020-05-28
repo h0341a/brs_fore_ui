@@ -4,12 +4,23 @@ import VueRouter, { RouteConfig } from 'vue-router'
 Vue.use(VueRouter)
 
 const AppLayout = ()=>import('../views/AppLayout.vue')
+const Home = ()=>import('../views/Home.vue')
 
   const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'MainLayout',
-    component: AppLayout
+    component: AppLayout,
+    children:[
+      {
+        path:'/',
+        component:Home
+      },
+      {
+        path:'/home',
+        component:Home
+      }
+    ]
   },
   {
     path: '/about',
