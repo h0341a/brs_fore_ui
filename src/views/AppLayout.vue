@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app :hide-on-scroll="true" height="74">
+    <v-app-bar app height="64">
       <v-app-bar-nav-icon v-if="!drawer" @click="drawer=!drawer"></v-app-bar-nav-icon>
       <v-icon v-else @click="drawer=!drawer">mdi-arrow-expand-left</v-icon>
       <v-spacer></v-spacer>
@@ -9,7 +9,7 @@
       </v-avatar>
     </v-app-bar>
     <v-navigation-drawer width="234" v-model="drawer" app disable-resize-watcher>
-      <v-list-item>
+      <v-list-item style="height:64px;">
         <v-list-item-content>
           <v-list-item-title class="title">图书推荐</v-list-item-title>
           <v-list-item-subtitle>为你的书找一些朋友</v-list-item-subtitle>
@@ -40,10 +40,10 @@ export default {
   data() {
     return {
       items: [
-        { path:'/home', title: "首页", icon: "mdi-view-dashboard" },
-        { path:'/friends', title: "联系人", icon: "mdi-account-box-multiple" },
-        { path:'/recommend', title: "我的推荐", icon: "mdi-book" },
-        { path:'/collection', title: "我的收藏", icon: "mdi-book" }
+        { path: "/home", title: "首页", icon: "mdi-view-dashboard" },
+        { path: "/friends", title: "联系人", icon: "mdi-account-box-multiple" },
+        { path: "/recommend", title: "我的推荐", icon: "mdi-book" },
+        { path: "/collection", title: "我的收藏", icon: "mdi-book" }
       ],
       drawer: true
     };

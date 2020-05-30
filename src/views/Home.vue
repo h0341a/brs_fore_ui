@@ -1,19 +1,16 @@
 <template>
   <div class="home">
     <div style="padding-top:0px;">
-      <v-tabs v-model="tab" background-color="primary" dark>
-        <v-tab v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
-      </v-tabs>
+      <v-toolbar dense>
+        <v-tabs v-model="tab" background-color="primary" dark>
+          <v-tab v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
+        </v-tabs>
+      </v-toolbar>
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="item in items" :key="item.tab">
           <v-card flat>
             <div>
-              <v-carousel
-                height="200"
-                cycle
-                hide-delimiter-background
-                :show-arrows="false"
-              >
+              <v-carousel height="234" cycle hide-delimiter-background :show-arrows="false">
                 <v-carousel-item v-for="(slide, i) in slides" :key="i">
                   <v-sheet :color="colors[i]" height="100%">
                     <v-row class="fill-height" align="center" justify="center">
@@ -23,18 +20,11 @@
                 </v-carousel-item>
               </v-carousel>
             </div>
-            <p>1</p>
-            <p>1</p>
-            <p>1</p>
-            <p>1</p>
-            <p>1</p>
-            <p>1</p>
-            <p>1</p>
-            <p>1</p>
-            <p>1</p>
-            <p>1</p>
-            <p>1</p>
-            <p>1</p>
+            <v-row dense>
+              <v-col v-for="card in cards" :key="card.label" cols="6">
+                <BookCard v-bind:book="card"></BookCard>
+              </v-col>
+            </v-row>
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -43,6 +33,7 @@
 </template>
 
 <script>
+import BookCard from "../components/BookCard";
 export default {
   name: "Home",
   data() {
@@ -55,6 +46,33 @@ export default {
         "deep-purple accent-4"
       ],
       slides: ["First", "Second", "Third", "Fourth", "Fifth"],
+      cards: [
+        {
+          title: "第二十二条军规",
+          src: 'twenty',
+          flex: 6
+        },
+                {
+          title: "第二十二条军规",
+          src: 'twenty',
+          flex: 6
+        },
+                {
+          title: "第二十二条军规",
+          src: 'twenty',
+          flex: 6
+        },
+                {
+          title: "第二十二条军规",
+          src: 'twenty',
+          flex: 6
+        },
+        {
+          title: "小妇人",
+          src: '',
+          flex: 6
+        }
+      ],
       tab: null,
       items: [
         { tab: "新书资讯", content: "Tab 1 Content" },
@@ -62,6 +80,9 @@ export default {
         { tab: "随机推荐", content: "Tab 3 Content" }
       ]
     };
+  },
+  components: {
+    BookCard
   }
 };
 </script>
