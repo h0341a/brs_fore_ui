@@ -49,28 +49,33 @@ export default {
       cards: [
         {
           title: "第二十二条军规",
-          src: 'twenty',
-          flex: 6
+          src: "twenty",
+          user: "推荐用户",
+          appreciation: "推荐理由"
         },
-                {
+        {
           title: "第二十二条军规",
-          src: 'twenty',
-          flex: 6
+          src: "twenty",
+          user: "推荐用户",
+          appreciation: "推荐理由推荐理由推荐理由推荐理由推荐理由"
         },
-                {
+        {
           title: "第二十二条军规",
-          src: 'twenty',
-          flex: 6
+          src: "twenty",
+          user: "推荐用户",
+          appreciation: "推荐理由推荐理由"
         },
-                {
+        {
           title: "第二十二条军规",
-          src: 'twenty',
-          flex: 6
+          src: "twenty",
+          user: "推荐用户",
+          appreciation: "推荐理由推荐理由推荐理由推荐理由推荐理由推荐理由推荐理由推荐理由"
         },
         {
           title: "小妇人",
-          src: '',
-          flex: 6
+          src: "",
+          user: "推荐用户",
+          appreciation: "推荐理由推荐理由推荐理由推荐理由"
         }
       ],
       tab: null,
