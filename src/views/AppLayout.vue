@@ -4,6 +4,18 @@
       <v-app-bar-nav-icon v-if="!drawer" @click="drawer=!drawer"></v-app-bar-nav-icon>
       <v-icon v-else @click="drawer=!drawer">mdi-arrow-expand-left</v-icon>
       <v-spacer></v-spacer>
+      <div style="padding:30px 20px 0 0 ">
+        <v-text-field
+          v-model="search"
+          :loading="loading"
+          flat
+          clearable
+          dense
+          solo
+          label="Prepend inner"
+          prepend-inner-icon="mdi-magnify"
+        ></v-text-field>
+      </div>
       <v-avatar color="teal" size="48">
         <span class="white--text headline">Me</span>
       </v-avatar>
@@ -39,6 +51,8 @@
 export default {
   data() {
     return {
+      search: "",
+      loading: false,
       items: [
         { path: "/home", title: "首页", icon: "mdi-view-dashboard" },
         { path: "/friends", title: "联系人", icon: "mdi-account-box-multiple" },
@@ -47,6 +61,12 @@ export default {
       ],
       drawer: true
     };
+  },
+  watch: {
+    search(val) {
+      this.loading = val !== ""
+      console.log(val)
+    }
   }
 };
 </script>
