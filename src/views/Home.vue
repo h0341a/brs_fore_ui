@@ -20,11 +20,15 @@
                 </v-carousel-item>
               </v-carousel>
             </div>
-            <v-row dense>
-              <v-col v-for="card in cards" :key="card.label" cols="6">
-                <BookCard v-bind:book="card"></BookCard>
-              </v-col>
-            </v-row>
+            <v-data-iterator :items="cards" items-per-page.sync="5" hide-default-footer>
+              <template>
+                <v-row>
+                  <v-col v-for="card in cards" :key="card.name" cols="12" sm="6" md="4" lg="3">
+                    <BookCard v-bind:book="card"></BookCard>
+                  </v-col>
+                </v-row>
+              </template>
+            </v-data-iterator>
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -69,7 +73,8 @@ export default {
           title: "第二十二条军规",
           src: "twenty",
           user: "推荐用户",
-          appreciation: "推荐理由推荐理由推荐理由推荐理由推荐理由推荐理由推荐理由推荐理由"
+          appreciation:
+            "推荐理由推荐理由推荐理由推荐理由推荐理由推荐理由推荐理由推荐理由"
         },
         {
           title: "小妇人",
