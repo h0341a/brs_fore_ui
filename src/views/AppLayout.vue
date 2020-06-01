@@ -12,7 +12,7 @@
           clearable
           dense
           solo
-          label="Prepend inner"
+          label="查询:书籍、好友等"
           prepend-inner-icon="mdi-magnify"
         ></v-text-field>
       </div>

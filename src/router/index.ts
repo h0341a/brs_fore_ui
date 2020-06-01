@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from 'vue-router'
 
 Vue.use(VueRouter)
 
+const Login = ()=> import('../views/Login.vue')
 const AppLayout = () => import('../views/AppLayout.vue')
 const Home = () => import('../views/Home.vue')
 const Friend = () => import('../views/Friend.vue')
@@ -10,6 +11,10 @@ const Collection = () => import('../views/Collection.vue')
 const Recommend = () => import('../views/Recommend.vue')
 
 const routes: Array<RouteConfig> = [
+  {
+    path:'/login',
+    component:Login
+  },
   {
     path: '/',
     name: 'MainLayout',
