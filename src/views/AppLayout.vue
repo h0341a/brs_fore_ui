@@ -16,8 +16,8 @@
           prepend-inner-icon="mdi-magnify"
         ></v-text-field>
       </div>
-      <v-avatar color="teal" size="48">
-        <span class="white--text headline">Me</span>
+      <v-avatar @click="$store.commit('updateShowFormState')" color="teal" size="48">
+        <span style="cursor:pointer;fontsize:14px;color:#fff;">Login</span>
       </v-avatar>
     </v-app-bar>
     <v-navigation-drawer width="234" v-model="drawer" app disable-resize-watcher>
@@ -44,10 +44,15 @@
         <router-view></router-view>
       </v-container>
     </v-content>
+    <v-dialog @click:outside="$store.commit('updateShowFormState')" persistent v-model="this.$store.state.loginForm" max-width="420px">
+      <LoginBox></LoginBox>
+    </v-dialog>
   </v-app>
 </template>
 
 <script>
+import LoginBox from "../components/LoginBox";
+// import RegisterBox from "../components/RegisterBox";
 export default {
   data() {
     return {
@@ -55,6 +60,7 @@ export default {
       loading: false,
       items: [
         { path: "/home", title: "首页", icon: "mdi-view-dashboard" },
+        { path: "/my", title: "我的主页", icon: "mdi-account" },
         { path: "/friends", title: "联系人", icon: "mdi-account-box-multiple" },
         { path: "/recommend", title: "我的推荐", icon: "mdi-book" },
         { path: "/collection", title: "我的收藏", icon: "mdi-book" }
@@ -64,9 +70,12 @@ export default {
   },
   watch: {
     search(val) {
-      this.loading = val !== ""
-      console.log(val)
+      this.loading = val !== "";
+      console.log(val);
     }
+  },
+  components: {
+    LoginBox
   }
 };
 </script>
