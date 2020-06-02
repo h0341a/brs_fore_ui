@@ -16,9 +16,34 @@
           prepend-inner-icon="mdi-magnify"
         ></v-text-field>
       </div>
-      <v-avatar @click="$store.commit('updateShowFormState')" color="teal" size="48">
-        <span style="cursor:pointer;fontsize:14px;color:#fff;">Login</span>
+      <v-avatar
+        v-if="!this.$store.state.isLogin"
+        @click="$store.commit('updateShowFormState')"
+        color="teal"
+        size="48"
+      >
+        <span
+          v-if="!this.$store.state.isLogin"
+          style="cursor:pointer;fontsize:14px;color:#fff;"
+        >Login</span>
       </v-avatar>
+      <v-menu v-else open-on-hover allow-overflow offset-y>
+        <template v-slot:activator="{ on }">
+          <v-avatar v-on="on" color="teal" size="48">
+            <img :src="avatarUrl" alt="You" />
+          </v-avatar>
+        </template>
+        <div style="padding-top:3px;">
+          <v-list dense>
+            <v-list-item dense @click="1">
+              <v-list-item-title>个人资料</v-list-item-title>
+            </v-list-item>
+            <v-list-item dense @click="logout">
+              <v-list-item-title>登出</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </div>
+      </v-menu>
     </v-app-bar>
     <v-navigation-drawer width="234" v-model="drawer" app disable-resize-watcher>
       <v-list-item style="height:64px;">
@@ -39,24 +64,35 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-content>
+    <v-content style="overflow-x:hidden">
       <v-container style="padding:8px" fluid>
         <router-view></router-view>
       </v-container>
     </v-content>
-    <v-dialog @click:outside="$store.commit('updateShowFormState')" persistent v-model="this.$store.state.loginForm" max-width="420px">
-      <LoginBox></LoginBox>
+    <v-dialog
+      @click:outside="$store.commit('updateShowFormState')"
+      persistent
+      v-model="this.$store.state.loginForm"
+      max-width="420px"
+    >
+      <LoginBox @loginSuccess="loginSuccess"></LoginBox>
     </v-dialog>
+    <v-snackbar v-model="showSnackbar" color="success" :timeout="4000" :top="true">
+      登陆成功
+      <v-btn dark text @click="showSnackbar = false">Close</v-btn>
+    </v-snackbar>
   </v-app>
 </template>
 
 <script>
 import LoginBox from "../components/LoginBox";
-// import RegisterBox from "../components/RegisterBox";
+import { getUserAvatarUrl, userLogout } from "../api/index";
 export default {
   data() {
     return {
       search: "",
+      avatarUrl: "",
+      showSnackbar: false,
       loading: false,
       items: [
         { path: "/home", title: "首页", icon: "mdi-view-dashboard" },
@@ -76,6 +112,23 @@ export default {
   },
   components: {
     LoginBox
+  },
+  methods: {
+    loginSuccess() {
+      this.showSnackbar = true;
+      getUserAvatarUrl().then(resp => {
+        if (resp.data.success) {
+          this.avatarUrl = resp.data.data;
+        }
+      });
+    },
+    logout() {
+      userLogout().then(resp => {
+        if (resp.data.success) {
+          this.$store.commit("updateLoginState");
+        }
+      });
+    }
   }
 };
 </script>

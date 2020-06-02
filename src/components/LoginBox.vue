@@ -5,13 +5,8 @@
         <span v-if="showLoginForm" class="headline">登录面板</span>
         <span v-else class="headline">注册面板</span>
         <v-divider></v-divider>
-        <v-btn
-          v-if="showLoginForm"
-          color="blue darken-1"
-          text
-          @click="showLoginForm = !showLoginForm"
-        >前往注册面板</v-btn>
-        <v-btn v-else color="blue darken-1" text @click="showLoginForm = !showLoginForm">前往登录面板</v-btn>
+        <v-btn v-if="showLoginForm" color="blue darken-1" text @click="gotoAnotherPannel">前往注册面板</v-btn>
+        <v-btn v-else color="blue darken-1" text @click="gotoAnotherPannel">前往登录面板</v-btn>
       </v-card-title>
       <v-card-text>
         <v-container>
@@ -36,7 +31,7 @@
                 :counter="16"
                 @click:append="showPassword = !showPassword"
               ></v-text-field>
-              <v-btn block color="secondary">登录</v-btn>
+              <v-btn @click="submitLoginForm" block color="secondary">登录</v-btn>
             </v-row>
           </v-form>
           <v-form v-else ref="form" lazy-validation>
@@ -92,7 +87,7 @@
 </template>
 
 <script>
-import { usernameIsSave, userRegister } from "../api/index";
+import { usernameIsSave, userRegister, userLogin } from "../api/index";
 export default {
   data() {
     return {
@@ -158,6 +153,26 @@ export default {
     }
   },
   methods: {
+    submitLoginForm() {
+      if (this.$refs.form.validate()) {
+        userLogin(this.loginForm).then(resp => {
+          if (resp.data.success) {
+            this.snackbar.text = "登录成功";
+            this.showPassword = false;
+            this.showLoginForm = true;
+            this.snackbar.status = "success";
+            this.snackbar.visible = true;
+            this.$store.commit("updateShowFormState");
+            this.$store.commit("updateLoginState");
+            this.$emit("loginSuccess");
+          } else {
+            this.snackbar.text = "登录失败,账号密码不匹配";
+            this.snackbar.status = "error";
+            this.snackbar.visible = true;
+          }
+        });
+      }
+    },
     submitRegisterForm() {
       this.registerForm["username"] = this.registerUsername;
       if (this.registerForm["nickname"] === "") {
@@ -168,9 +183,12 @@ export default {
           if (resp.data.success) {
             this.loginForm.username = this.registerUsername;
             this.snackbar.text = "注册成功，已前往登陆";
+            this.showPassword = false;
             this.showLoginForm = true;
             this.snackbar.status = "success";
             this.snackbar.visible = true;
+            this.loginForm.username = "";
+            this.loginForm.password = "";
           } else {
             this.snackbar.text = "注册失败，原因为:" + resp.data.errMsg;
             this.snackbar.status = "error";
@@ -178,6 +196,10 @@ export default {
           }
         });
       }
+    },
+    gotoAnotherPannel() {
+      this.showLoginForm = !this.showLoginForm;
+      this.showPassword = false;
     }
   }
 };
