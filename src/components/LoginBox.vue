@@ -42,14 +42,13 @@
           <v-text-field
             v-model="registerForm.username"
             :rules="registerForm.usernameRules"
-            :counter="16"
+            :counter="32"
             label="用户名"
             required
           ></v-text-field>
           <v-text-field
             v-model="registerForm.nickname"
             :rules="registerForm.nicknameRules"
-            :counter="16"
             label="昵称"
             required
           ></v-text-field>
@@ -110,7 +109,8 @@ export default {
         repeatPasssword: "",
         usernameRules: [
           v => !!v || "用户名不能为空",
-          v => (v && v.length <= 16) || "用户名不能超过16个字符"
+          v => (v && v.length <= 32) || "用户名不能超过32个字符",
+          v => (v && v.length >= 4) || "用户名不能少于4个字符"
         ],
         nicknameRules: [],
         emailRules: [
