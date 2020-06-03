@@ -3,7 +3,7 @@
     <v-list three-line>
       <v-list-item>
         <v-divider />
-        <v-btn>
+        <v-btn @click="showEditPannel=!showEditPannel">
           <v-icon>mdi-plus</v-icon>添加新推荐
         </v-btn>
         <v-divider />
@@ -17,15 +17,25 @@
         </div>
       </template>
     </v-list>
+    <v-dialog
+      @click:outside="showEditPannel = false"
+      persistent
+      v-model="showEditPannel"
+      max-width="400px"
+    >
+      <EditPannel></EditPannel>
+    </v-dialog>
   </v-card>
 </template>
 
 <script>
 import RecommendCard from "../components/RecommendCard";
+import EditPannel from "../components/EditPannel";
 export default {
   name: "Recommend",
   data() {
     return {
+      showEditPannel: false,
       items: [
         {
           bookName: "《little women》",
@@ -45,7 +55,8 @@ export default {
     };
   },
   components: {
-    RecommendCard
+    RecommendCard,
+    EditPannel
   }
 };
 </script>
