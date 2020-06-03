@@ -5,7 +5,7 @@
         <v-list-item-content>
           <v-row align="center" align-content="center">
             <v-divider></v-divider>
-            <div @click="chooseAvatar = !chooseAvatar">
+            <div @click="upload">
               <v-badge avatar bottom bordered overlap>
                 <template v-slot:badge>
                   <v-avatar>
@@ -17,6 +17,14 @@
                 </v-avatar>
               </v-badge>
             </div>
+            <input
+              style="display:none"
+              type="file"
+              id="upload"
+              ref="upload"
+              @change="uploadAvatar"
+              accept=".jpg, .jpeg, .png"
+            />
 
             <v-divider></v-divider>
           </v-row>
@@ -73,26 +81,25 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-    <v-dialog
-      @click:outside="chooseAvatar = !chooseAvatar"
-      persistent
-      v-model="chooseAvatar"
-      max-width="400px"
-    >
-      <v-card max-width="375" class="mx-auto">
-        <v-file-input autofocus accept="image/*" show-size label="File input"></v-file-input>
-      </v-card>
-    </v-dialog>
   </v-card>
 </template>
 
 <script>
 export default {
   props: ["userProfile"],
-  data() {
-    return {
-      chooseAvatar: false
-    };
+  methods: {
+    upload() {
+      this.$refs.upload.click();
+    },
+    uploadAvatar(e) {
+      let formData = new FormData();
+      console.log(e)
+      formData.append("file", e.target.files[0]);
+      console.log(formData)
+      if(!formData){
+          formData = null
+      }
+    }
   }
 };
 </script>
