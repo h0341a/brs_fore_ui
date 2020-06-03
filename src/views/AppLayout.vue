@@ -27,7 +27,7 @@
           style="cursor:pointer;fontsize:14px;color:#fff;"
         >Login</span>
       </v-avatar>
-      <v-menu v-else open-on-hover allow-overflow offset-y>
+      <v-menu v-else allow-overflow offset-y>
         <template v-slot:activator="{ on }">
           <v-avatar v-on="on" color="teal" size="48">
             <img :src="avatarUrl" alt="You" />
@@ -35,7 +35,7 @@
         </template>
         <div style="padding-top:3px;">
           <v-list dense>
-            <v-list-item dense @click="1">
+            <v-list-item dense @click="showProfileCard = true">
               <v-list-item-title>个人资料</v-list-item-title>
             </v-list-item>
             <v-list-item dense @click="logout">
@@ -81,19 +81,40 @@
       登陆成功
       <v-btn dark text @click="showSnackbar = false">Close</v-btn>
     </v-snackbar>
+    <v-dialog
+      @click:outside="showProfileCard = false"
+      persistent
+      v-model="showProfileCard"
+      max-width="400px"
+    >
+      <ProfileCard v-bind:userProfile="userProfile"></ProfileCard>
+    </v-dialog>
   </v-app>
 </template>
 
 <script>
 import LoginBox from "../components/LoginBox";
+import ProfileCard from "../components/ProfileCard";
 import { getUserAvatarUrl, userLogout } from "../api/index";
 export default {
   data() {
     return {
       search: "",
+      showProfileCard: false,
       avatarUrl: "",
       showSnackbar: false,
       loading: false,
+      userProfile: {
+        avatarUrl: "https://www.gravatar.com/avatar/hash?d=mp",
+        nickname: "nick",
+        bio: "添加个性签名",
+        fans: 23,
+        idol: 32,
+        collection: 12,
+        email: "example@example.com",
+        recommend: 12,
+        registerDate: "2020.8.9"
+      },
       items: [
         { path: "/home", title: "首页", icon: "mdi-view-dashboard" },
         { path: "/my", title: "我的主页", icon: "mdi-account" },
@@ -111,7 +132,8 @@ export default {
     }
   },
   components: {
-    LoginBox
+    LoginBox,
+    ProfileCard
   },
   methods: {
     loginSuccess() {
