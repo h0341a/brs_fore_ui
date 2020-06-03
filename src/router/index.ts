@@ -48,14 +48,14 @@ const routes: Array<RouteConfig> = [
         path: '/recommend',
         component: Recommend,
         meta: {
-          requiresAuth: true
+          requiresAuth: false
         }
       },
       {
         path: '/collection',
         component: Collection,
         meta: {
-          requiresAuth: false
+          requiresAuth: true
         }
       }
     ]

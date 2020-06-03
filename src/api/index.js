@@ -20,3 +20,7 @@ export const userLogout = ()=>axios.get('/logout')
  * 获取用户头像
  */
 export const getUserAvatarUrl = ()=>axios.get('/user/avatarUrl')
+/**
+ * 获取用户的收藏
+ */
+export const getUserCollection = ()=>axios.get('/user/collect')
