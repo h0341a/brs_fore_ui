@@ -55,7 +55,7 @@ const routes: Array<RouteConfig> = [
         path: '/collection',
         component: Collection,
         meta: {
-          requiresAuth: true
+          requiresAuth: false
         }
       }
     ]
