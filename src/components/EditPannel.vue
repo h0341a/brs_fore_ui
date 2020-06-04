@@ -19,7 +19,7 @@
             </v-row>
             <v-row>
               <v-text-field
-                v-model="recommendForm.author"
+                v-model="recommendForm.bookAuthor"
                 :rules="recommendFormRules.authorRules"
                 counter
                 label="作者"
@@ -50,7 +50,7 @@
         </v-container>
       </v-card-text>
     </v-card>
-    <v-snackbar v-model="snackbar.visible" :color="snackbar.status" :timeout="4000" :top="true">
+    <v-snackbar v-model="snackbar.visible" color="error" :timeout="4000" :top="true">
       {{ snackbar.text }}
       <v-btn dark text @click="snackbar.visible = false">Close</v-btn>
     </v-snackbar>
@@ -73,18 +73,19 @@
 </template>
 
 <script>
+import { uploadUserRecommend } from "../api/index";
+
 export default {
   data() {
     return {
       showConfirmDialog: false,
       snackbar: {
         visible: false,
-        status: "",
         text: ""
       },
       recommendForm: {
         bookName: "",
-        author: "",
+        bookAuthor: "",
         title: "",
         content: ""
       },
@@ -103,7 +104,19 @@ export default {
       }
     },
     commit() {
-      console.log("commit");
+      uploadUserRecommend(this.recommendForm).then(resp => {
+        this.showConfirmDialog = false;
+        if (resp.data.success) {
+          this.recommendForm.bookName = "";
+          this.recommendForm.bookAuthor = "";
+          this.recommendForm.title = "";
+          this.recommendForm.content = "";
+          this.$emit("uploadRecommendSuccess");
+        } else {
+          this.snackbar.visible = true;
+          this.snackbar.text = "添加推荐失败:" + resp.data.errMsg;
+        }
+      });
     }
   }
 };

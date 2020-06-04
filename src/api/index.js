@@ -15,12 +15,20 @@ export const userLogin = params => axios.post('/login', params)
 /**
  * 用户登出
  */
-export const userLogout = ()=>axios.get('/logout')
+export const userLogout = () => axios.get('/logout')
 /**
  * 获取用户头像
  */
-export const getUserAvatarUrl = ()=>axios.get('/user/avatarUrl')
+export const getUserAvatarUrl = () => axios.get('/user/avatarUrl')
 /**
  * 获取用户的收藏
  */
-export const getUserCollection = ()=>axios.get('/user/collect')
+export const getUserCollection = () => axios.get('/user/collect')
+/**
+ * 获取用户的推荐
+ */
+export const getUserRecommends = () => axios.get('/user/recommends')
+/**
+ * 上传用户的推荐
+ */
+export const uploadUserRecommend = params => axios.post('/user/recommend', params)
