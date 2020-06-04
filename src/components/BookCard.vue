@@ -39,7 +39,9 @@ import {
   isStar,
   isCollection,
   addCollection,
-  cancelCollection
+  cancelCollection,
+  addStar,
+  cancelStar
 } from "../api/index";
 export default {
   props: ["book"],
@@ -53,7 +55,7 @@ export default {
   },
   created() {
     if (this.$store.state.isLogin) {
-      isStar({ rid: this.rid }).then(resp => {
+      isStar({ rid: this.book.rid }).then(resp => {
         if (resp.data.success) {
           this.star = resp.data.data;
         }
@@ -83,15 +85,23 @@ export default {
   },
   methods: {
     toStar() {
-      // if (this.$store.state.isLogin) {
-      //   if (state === "star") {
-      //     console.log(state);
-      //   } else if (state === "collect") {
-      //     console.log(state);
-      //   }
-      // } else {
-      //   this.$store.commit("updateShowFormState");
-      // }
+      if (this.$store.state.isLogin) {
+        if (this.star) {
+          cancelStar({ rid: this.book.rid }).then(resp => {
+            if (resp.data.success) {
+              this.star = false;
+            }
+          });
+        } else {
+          addStar({ rid: this.book.rid }).then(resp => {
+            if (resp.data.success) {
+              this.star = true;
+            }
+          });
+        }
+      } else {
+        this.$store.commit("updateShowFormState");
+      }
     },
     toCollection() {
       if (this.$store.state.isLogin) {

@@ -10,6 +10,8 @@ export const isStar = params => axios.get('/user/isStar', { params: params })
 export const isCollection = params => axios.get('/user/isCollection', { params: params })
 export const cancelCollection = params => axios.delete('/user/collection', { params: params })
 export const addCollection = params => axios.post('/user/collection', params)
+export const cancelStar = params => axios.delete('/user/star', { params: params })
+export const addStar = params => axios.post('/user/star', params)
 /**
  * 判断用户名是否存在 
  */
