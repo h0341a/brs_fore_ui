@@ -20,10 +20,17 @@
                 </v-carousel-item>
               </v-carousel>
             </div>
-            <div id="card-list">
+            <div v-if="currPageData != null && currPageData.list.length!=0" id="card-list">
               <v-row>
-                <v-col v-for="card in cards" :key="card.name" cols="12" sm="6" md="4" lg="3">
-                  <BookCard v-bind:book="card"></BookCard>
+                <v-col
+                  v-for="book in currPageData.list"
+                  :key="book.name"
+                  cols="12"
+                  sm="6"
+                  md="4"
+                  lg="3"
+                >
+                  <BookCard v-bind:book="book"></BookCard>
                 </v-col>
               </v-row>
             </div>
@@ -31,15 +38,25 @@
         </v-tab-item>
       </v-tabs-items>
     </div>
+    <v-snackbar v-model="snackbar.visible" :color="snackbar.status" :timeout="4000" :top="true">
+      {{snackbar.text}}
+      <v-btn dark text @click="snackbar.visible = false">Close</v-btn>
+    </v-snackbar>
   </div>
 </template>
 
 <script>
 import BookCard from "../components/BookCard";
+import { getHomeRecommends } from "../api/index";
 export default {
   name: "Home",
   data() {
     return {
+      snackbar: {
+        visible: false,
+        status: "",
+        text: ""
+      },
       colors: [
         "indigo",
         "warning",
@@ -48,6 +65,7 @@ export default {
         "deep-purple accent-4"
       ],
       slides: ["First", "Second", "Third", "Fourth", "Fifth"],
+      currPageData: null,
       cards: [
         {
           title: "第二十二条军规",
@@ -82,12 +100,19 @@ export default {
         }
       ],
       tab: null,
-      items: [
-        { tab: "新书资讯", content: "Tab 1 Content" },
-        { tab: "最高评分", content: "Tab 2 Content" },
-        { tab: "随机推荐", content: "Tab 3 Content" }
-      ]
+      items: [{ tab: "新书资讯", content: "Tab 1 Content" }]
     };
+  },
+  created() {
+    getHomeRecommends().then(resp => {
+      if (resp.data.success) {
+        this.currPageData = resp.data.data;
+      } else {
+        this.snackbar.visible = true;
+        this.snackbar.status = "error";
+        this.snackbar.text = "获取首页数据失败，原因为:" + resp.data.errMsg;
+      }
+    });
   },
   components: {
     BookCard

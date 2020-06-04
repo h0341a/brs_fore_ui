@@ -117,7 +117,6 @@ export default {
       },
       items: [
         { path: "/home", title: "首页", icon: "mdi-view-dashboard" },
-        { path: "/my", title: "我的主页", icon: "mdi-account" },
         { path: "/friends", title: "联系人", icon: "mdi-account-box-multiple" },
         { path: "/recommend", title: "我的推荐", icon: "mdi-book" },
         { path: "/collection", title: "我的收藏", icon: "mdi-book" }

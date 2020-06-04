@@ -10,7 +10,6 @@ const Home = () => import('../views/Home.vue')
 const Friend = () => import('../views/Friend.vue')
 const Collection = () => import('../views/Collection.vue')
 const Recommend = () => import('../views/Recommend.vue')
-const MyHome = () => import('../views/MyHome.vue')
 
 const routes: Array<RouteConfig> = [
   {
@@ -25,13 +24,6 @@ const routes: Array<RouteConfig> = [
       {
         path: '/',
         component: Home
-      },
-      {
-        path: '/my',
-        component: MyHome,
-        meta: {
-          requiresAuth: true
-        }
       },
       {
         path: '/home',

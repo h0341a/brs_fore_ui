@@ -1,5 +1,15 @@
 import axios from './axios'
 
+
+/**
+ * 获取首页数据
+ */
+export const getHomeBooks = params => axios.get('/books', { params: params })
+export const getHomeRecommends = params => axios.get('/recommends', { params: params })
+export const isStar = params => axios.get('/user/isStar', { params: params })
+export const isCollection = params => axios.get('/user/isCollection', { params: params })
+export const cancelCollection = params => axios.delete('/user/collection', { params: params })
+export const addCollection = params => axios.post('/user/collection', params)
 /**
  * 判断用户名是否存在 
  */
