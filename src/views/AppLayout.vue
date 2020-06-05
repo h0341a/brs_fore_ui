@@ -29,8 +29,11 @@
       </v-avatar>
       <v-menu v-else allow-overflow offset-y>
         <template v-slot:activator="{ on }">
-          <v-avatar v-on="on" color="teal" size="48">
-            <img :src="avatarUrl" alt="You" />
+          <v-avatar v-if="userProfile != null" v-on="on" color="teal" size="48">
+            <img :src="userProfile.avatarUrl" alt="You" />
+          </v-avatar>
+          <v-avatar v-else v-on="on" color="teal" size="48">
+            You
           </v-avatar>
         </template>
         <div style="padding-top:3px;">
@@ -95,26 +98,15 @@
 <script>
 import LoginBox from "../components/LoginBox";
 import ProfileCard from "../components/ProfileCard";
-import { getUserAvatarUrl, userLogout } from "../api/index";
+import { userLogout, getUserInfo } from "../api/index";
 export default {
   data() {
     return {
       search: "",
       showProfileCard: false,
-      avatarUrl: "",
       showSnackbar: false,
       loading: false,
-      userProfile: {
-        avatarUrl: "https://www.gravatar.com/avatar/hash?d=mp",
-        nickname: "nick",
-        bio: "添加个性签名",
-        fans: 23,
-        idol: 32,
-        collection: 12,
-        email: "example@example.com",
-        recommend: 12,
-        registerDate: "2020.8.9"
-      },
+      userProfile: null,
       items: [
         { path: "/home", title: "首页", icon: "mdi-view-dashboard" },
         { path: "/friends", title: "联系人", icon: "mdi-account-box-multiple" },
@@ -137,9 +129,9 @@ export default {
   methods: {
     loginSuccess() {
       this.showSnackbar = true;
-      getUserAvatarUrl().then(resp => {
+      getUserInfo().then(resp => {
         if (resp.data.success) {
-          this.avatarUrl = resp.data.data;
+          this.userProfile = resp.data.data;
         }
       });
     },
