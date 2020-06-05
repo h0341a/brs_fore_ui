@@ -7,8 +7,6 @@ axios.defaults.withCredentials = true;
 axios.interceptors.request.use(config => {
     if (config.method === 'post' && config.data.constructor !== FormData) {
         config.data = Qs.stringify(config.data);
-    } else {
-        console.log('12')
     }
     return config;
 },

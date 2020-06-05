@@ -43,7 +43,11 @@ export const getUserRecommends = () => axios.get('/user/recommends')
  */
 export const uploadAvatar = params => axios.post('/upload', params,
     { headers: { 'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryRxBAK8uWAfdSgGT1' } })
-
+/** 
+ * 修改用户信息 
+ */
+export const updateUserProfile = params => axios.post("/user/info", params)
+export const deleteCacheImg = params => axios.delete("/img", { params: params })
 /**
  * 上传用户的推荐
  */

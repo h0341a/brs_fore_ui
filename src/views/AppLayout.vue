@@ -32,9 +32,7 @@
           <v-avatar v-if="userProfile != null" v-on="on" color="teal" size="48">
             <img :src="userProfile.avatarUrl" alt="You" />
           </v-avatar>
-          <v-avatar v-else v-on="on" color="teal" size="48">
-            You
-          </v-avatar>
+          <v-avatar v-else v-on="on" color="teal" size="48">You</v-avatar>
         </template>
         <div style="padding-top:3px;">
           <v-list dense>
@@ -80,9 +78,9 @@
     >
       <LoginBox @loginSuccess="loginSuccess"></LoginBox>
     </v-dialog>
-    <v-snackbar v-model="showSnackbar" color="success" :timeout="4000" :top="true">
-      登陆成功
-      <v-btn dark text @click="showSnackbar = false">Close</v-btn>
+    <v-snackbar v-model="snackbar.visible" color="success" :timeout="4000" :top="true">
+      {{snackbar.text}}
+      <v-btn dark text @click="snackbar.visible = false">Close</v-btn>
     </v-snackbar>
     <v-dialog
       @click:outside="showProfileCard = false"
@@ -90,7 +88,7 @@
       v-model="showProfileCard"
       max-width="400px"
     >
-      <ProfileCard v-bind:userProfile="userProfile"></ProfileCard>
+      <ProfileCard @done="editProfileDone" v-bind:userProfile="userProfile"></ProfileCard>
     </v-dialog>
   </v-app>
 </template>
@@ -104,7 +102,10 @@ export default {
     return {
       search: "",
       showProfileCard: false,
-      showSnackbar: false,
+      snackbar: {
+        visible: false,
+        text: ""
+      },
       loading: false,
       userProfile: null,
       items: [
@@ -127,8 +128,20 @@ export default {
     ProfileCard
   },
   methods: {
+    editProfileDone() {
+      this.showProfileCard = false;
+      this.snackbar.visible = true;
+
+      this.snackbar.text = "修改个人资料成功！";
+      getUserInfo().then(resp => {
+        if (resp.data.success) {
+          this.userProfile = resp.data.data;
+        }
+      });
+    },
     loginSuccess() {
-      this.showSnackbar = true;
+      this.snackbar.visible = true;
+      this.snackbar.text = "登陆成功";
       getUserInfo().then(resp => {
         if (resp.data.success) {
           this.userProfile = resp.data.data;

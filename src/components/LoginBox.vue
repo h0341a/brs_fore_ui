@@ -100,8 +100,8 @@ export default {
       showPassword: false,
       nameIsSave: false,
       loginForm: {
-        username: "",
-        password: ""
+        username: "user2",
+        password: "user"
       },
       loginFormRules: {
         usernameRules: [v => !!v || "名字不能为空"],
