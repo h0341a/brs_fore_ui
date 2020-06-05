@@ -5,15 +5,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLogin:false,
-    loginForm:false
+    isLogin: false,
+    loginForm: false,
+    targetUrl: '',
   },
   mutations: {
-    updateLoginState(state){
+    updateLoginState(state) {
       state.isLogin = !state.isLogin
     },
-    updateShowFormState(state){
+    updateShowFormState(state) {
       state.loginForm = !state.loginForm
+    },
+    alterTargetUrlValue(state, val) {
+      state.targetUrl = val
     }
   },
   actions: {

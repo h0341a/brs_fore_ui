@@ -55,7 +55,13 @@
       </v-list-item>
       <v-divider></v-divider>
       <v-list dense nav>
-        <v-list-item v-for="item in items" :exact="true" :to="item.path" :key="item.title">
+        <v-list-item
+          @click="$store.commit('alterTargetUrlValue', item.path)"
+          v-for="item in items"
+          :exact="true"
+          :to="item.path"
+          :key="item.title"
+        >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -145,6 +151,9 @@ export default {
       getUserInfo().then(resp => {
         if (resp.data.success) {
           this.userProfile = resp.data.data;
+          if (this.$store.state.targetUrl !== "") {
+            this.$router.push(this.$store.state.targetUrl);
+          }
         }
       });
     },
