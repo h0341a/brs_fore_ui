@@ -8,6 +8,41 @@
       <v-card-text>
         <v-container>
           <v-form ref="form" lazy-validation>
+            <v-row align="center" align-content="center">
+              <v-divider></v-divider>
+              <div @click="$refs.file.click()">
+                <v-badge avatar bottom bordered overlap>
+                  <template v-slot:badge>
+                    <v-avatar>
+                      <v-icon>mdi-plus</v-icon>
+                    </v-avatar>
+                  </template>
+                  <v-avatar tile color="teal" width="86.4" height="124.8">
+                    <v-img
+                      v-if="recommendForm.coverUrl !== ''"
+                      :src="recommendForm.coverUrl"
+                      ref="file"
+                      class="white--text align-end"
+                      gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                      contain
+                      lazy-src
+                      height="100%"
+                      width="100%"
+                    ></v-img>
+                    <span v-else>书籍封面</span>
+                  </v-avatar>
+                </v-badge>
+              </div>
+              <input
+                style="display:none"
+                type="file"
+                id="file"
+                ref="file"
+                @change="uploadCover"
+                accept=".jpg, .jpeg, .png"
+              />
+              <v-divider></v-divider>
+            </v-row>
             <v-row>
               <v-text-field
                 v-model="recommendForm.bookName"
@@ -73,17 +108,20 @@
 </template>
 
 <script>
-import { uploadUserRecommend } from "../api/index";
+import { uploadUserRecommend, uploadImg, deleteCacheImg } from "../api/index";
+import littleWomen from "../assets/img/little_women.jpg";
 
 export default {
   data() {
     return {
+      littleWomen: littleWomen,
       showConfirmDialog: false,
       snackbar: {
         visible: false,
         text: ""
       },
       recommendForm: {
+        coverUrl: "",
         bookName: "",
         bookAuthor: "",
         title: "",
@@ -98,6 +136,28 @@ export default {
     };
   },
   methods: {
+    uploadCover(e) {
+      let formData = new FormData();
+      const files = e.target.files;
+      if (files && files[0]) {
+        const img = files[0];
+        if (img.size > 1024 * 1024 * 6) {
+          return;
+        } else {
+          formData.append("uploadFile", img);
+          console.log(formData.get("uploadFile"));
+          uploadImg(formData).then(resp => {
+            if (resp.data.success) {
+              this.imgName = resp.data.data;
+              this.recommendForm.coverUrl =
+                "http://localhost:8090/img/" + this.imgName;
+            } else {
+              formData = null;
+            }
+          });
+        }
+      }
+    },
     submitRecommendForm() {
       if (this.$refs.form.validate()) {
         this.showConfirmDialog = true;

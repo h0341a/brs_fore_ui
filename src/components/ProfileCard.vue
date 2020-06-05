@@ -140,7 +140,7 @@
 </template>
 
 <script>
-import { uploadAvatar, updateUserProfile, deleteCacheImg } from "../api/index";
+import { uploadImg, updateUserProfile, deleteCacheImg } from "../api/index";
 export default {
   props: ["userProfile"],
   data() {
@@ -189,7 +189,7 @@ export default {
         } else {
           formData.append("uploadFile", img);
           console.log(formData.get("uploadFile"));
-          uploadAvatar(formData).then(resp => {
+          uploadImg(formData).then(resp => {
             if (resp.data.success) {
               this.imgName = resp.data.data;
               this.newProfile.avatar = "http://localhost:8090/img/" + this.imgName;
