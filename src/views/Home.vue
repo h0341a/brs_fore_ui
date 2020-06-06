@@ -34,6 +34,13 @@
                 </v-col>
               </v-row>
             </div>
+            <div v-else>
+              <v-row>
+                <v-divider />
+                <v-chip class="ma-2">首页空空如也,连我也不知道如何是好</v-chip>
+                <v-divider />
+              </v-row>
+            </div>
           </v-card>
         </v-tab-item>
       </v-tabs-items>

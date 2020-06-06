@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto">
+  <v-card v-if="userProfile!=null" class="mx-auto">
     <v-list>
       <v-list-item>
         <v-list-item-content>
@@ -170,6 +170,7 @@ export default {
     commit() {
       updateUserProfile(this.newProfile).then(resp => {
         if (resp.data.success) {
+          this.newProfile.avatar = "";
           this.editName = false;
           this.editBio = false;
           this.$emit("done");
@@ -192,7 +193,8 @@ export default {
           uploadImg(formData).then(resp => {
             if (resp.data.success) {
               this.imgName = resp.data.data;
-              this.newProfile.avatar = "http://localhost:8090/img/" + this.imgName;
+              this.newProfile.avatar =
+                "http://localhost:8090/img/" + this.imgName;
             } else {
               formData = null;
             }

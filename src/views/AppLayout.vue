@@ -29,14 +29,14 @@
       </v-avatar>
       <v-menu v-else allow-overflow offset-y>
         <template v-slot:activator="{ on }">
-          <v-avatar v-if="userProfile != null" v-on="on" color="teal" size="48">
-            <img :src="userProfile.avatarUrl" alt="You" />
+          <v-avatar v-if="userAvatar != null" v-on="on" color="teal" size="48">
+            <img :src="userAvatar" alt="You" />
           </v-avatar>
           <v-avatar v-else v-on="on" color="teal" size="48">You</v-avatar>
         </template>
         <div style="padding-top:3px;">
           <v-list dense>
-            <v-list-item dense @click="showProfileCard = true">
+            <v-list-item dense @click="showProfile()">
               <v-list-item-title>个人资料</v-list-item-title>
             </v-list-item>
             <v-list-item dense @click="logout">
@@ -102,7 +102,7 @@
 <script>
 import LoginBox from "../components/LoginBox";
 import ProfileCard from "../components/ProfileCard";
-import { userLogout, getUserInfo } from "../api/index";
+import { userLogout, getUserAvatarUrl, getUserInfo } from "../api/index";
 export default {
   data() {
     return {
@@ -113,6 +113,7 @@ export default {
         text: ""
       },
       loading: false,
+      userAvatar: null,
       userProfile: null,
       items: [
         { path: "/home", title: "首页", icon: "mdi-view-dashboard" },
@@ -134,26 +135,31 @@ export default {
     ProfileCard
   },
   methods: {
-    editProfileDone() {
-      this.showProfileCard = false;
-      this.snackbar.visible = true;
-
-      this.snackbar.text = "修改个人资料成功！";
+    showProfile() {
+      this.showProfileCard = true;
       getUserInfo().then(resp => {
         if (resp.data.success) {
           this.userProfile = resp.data.data;
         }
       });
     },
+    editProfileDone() {
+      this.showProfileCard = false;
+      this.snackbar.visible = true;
+
+      this.snackbar.text = "修改个人资料成功！";
+      getUserAvatarUrl().then(resp => {
+        if (resp.data.success) {
+          this.userAvatar = resp.data.data;
+        }
+      });
+    },
     loginSuccess() {
       this.snackbar.visible = true;
       this.snackbar.text = "登陆成功";
-      getUserInfo().then(resp => {
+      getUserAvatarUrl().then(resp => {
         if (resp.data.success) {
-          this.userProfile = resp.data.data;
-          if (this.$store.state.targetUrl !== "") {
-            this.$router.push(this.$store.state.targetUrl);
-          }
+          this.userAvatar = resp.data.data;
         }
       });
     },

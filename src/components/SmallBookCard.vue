@@ -1,27 +1,23 @@
 <template>
-    <v-card width="86.4" height="124.8">
-      <v-img
-        :src="littleWomen"
-        class="white--text align-end"
-        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-        contain
-        lazy-src
-        height="124.8"
-        width="86.4"
-      ></v-img>
-      <div class="book-title">小妇人</div>
-    </v-card>
+  <v-card width="86.4" height="124.8">
+    <v-img
+      :src="book.coverUrl"
+      class="white--text align-end"
+      gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+      contain
+      lazy-src
+      height="124.8"
+      width="86.4"
+    ></v-img>
+    <div class="book-title">{{book.name}}</div>
+  </v-card>
 </template>
 
 <script>
-import littleWomen from "../assets/img/little_women.jpg";
-
 export default {
   props: ["book"],
   data() {
-    return {
-      littleWomen: littleWomen
-    };
+    return {};
   }
 };
 </script>
@@ -31,7 +27,7 @@ export default {
   margin-top: 6px;
   font-size: 13px;
   color: slategrey;
-  line-height: 18px;
+  width: 100px;
   overflow: hidden;
   height: 36px;
   display: -webkit-box;

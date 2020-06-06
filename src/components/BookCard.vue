@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-img
-      :src="littleWomen"
+      :src="book.coverUrl"
       class="white--text align-end"
       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
       contain
@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import littleWomen from "../assets/img/little_women.jpg";
 import {
   isStar,
   isCollection,
@@ -47,10 +46,9 @@ export default {
   props: ["book"],
   data() {
     return {
-      show: true,
+      show: false,
       star: false,
-      collection: false,
-      littleWomen: littleWomen
+      collection: false
     };
   },
   created() {

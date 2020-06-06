@@ -21,7 +21,6 @@
                     <v-img
                       v-if="recommendForm.coverUrl !== ''"
                       :src="recommendForm.coverUrl"
-                      ref="file"
                       class="white--text align-end"
                       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                       contain
@@ -108,7 +107,7 @@
 </template>
 
 <script>
-import { uploadUserRecommend, uploadImg, deleteCacheImg } from "../api/index";
+import { uploadUserRecommend, uploadImg } from "../api/index";
 import littleWomen from "../assets/img/little_women.jpg";
 
 export default {

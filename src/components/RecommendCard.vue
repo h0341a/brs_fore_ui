@@ -2,7 +2,7 @@
   <v-card>
     <v-list-item @click="1">
       <v-list-item-avatar height="124.8" width="86.4" tile>
-        <v-img :src="littleWomen"></v-img>
+        <v-img :src="recommend.coverUrl"></v-img>
       </v-list-item-avatar>
 
       <v-list-item-content>
