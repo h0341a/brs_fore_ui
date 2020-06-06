@@ -4,7 +4,7 @@
       <v-col cols="12" sm="6" md="4" lg="6">
         <v-card class="mx-auto">
           <v-list subheader>
-            <v-subheader>最近聊天</v-subheader>
+            <v-subheader>好友分组</v-subheader>
 
             <v-list-item v-for="item in items" :key="item.title">
               <v-list-item-avatar>
@@ -25,7 +25,7 @@
       <v-col cols="12" sm="6" md="4" lg="6">
         <v-card class="mx-auto">
           <v-list subheader>
-            <v-subheader>好友分组</v-subheader>
+            <v-subheader>最近聊天</v-subheader>
 
             <v-list-item v-for="item in items" :key="item.title">
               <v-list-item-avatar>

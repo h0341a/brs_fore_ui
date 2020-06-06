@@ -35,6 +35,14 @@
     >
       <EditPannel @uploadRecommendSuccess="uploadSuccess"></EditPannel>
     </v-dialog>
+    <v-btn
+      v-if="currPageData!=null && currPageData.hasNextPage"
+      @click="getNextPageData"
+      block
+      color="secondary"
+      dark
+    >点击加载更多</v-btn>
+    <v-btn v-else block disabled>没有更多了</v-btn>
   </v-card>
 </template>
 
@@ -47,17 +55,38 @@ export default {
   data() {
     return {
       showEditPannel: false,
-      currPageData: null
+      currPageData: null,
+      page: 1,
+      pageSize: 8
     };
   },
   created() {
     getUserRecommends().then(resp => {
       if (resp.data.success) {
+        this.page += 1;
         this.currPageData = resp.data.data;
       }
     });
   },
   methods: {
+    getNextPageData() {
+      getUserRecommends({ page: this.page, pageSize: this.pageSize }).then(
+        resp => {
+          if (resp.data.success) {
+            this.page += 1;
+            for (const i in resp.data.data.list) {
+              this.currPageData.list.push(resp.data.data.list[i]);
+            }
+            this.currPageData.hasNextPage = resp.data.data.hasNextPage;
+          } else {
+            this.snackbar.visible = true;
+            this.snackbar.status = "error";
+            this.snackbar.text =
+              "获取用户收藏书籍失败,原因为:" + resp.data.errMsg;
+          }
+        }
+      );
+    },
     uploadSuccess() {
       this.showEditPannel = false;
       getUserRecommends().then(resp => {

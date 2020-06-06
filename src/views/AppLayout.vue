@@ -71,7 +71,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-content style="overflow-x:hidden">
+    <v-content id="appContent" style="overflow-x:hidden">
       <v-container style="padding:8px" fluid>
         <router-view></router-view>
       </v-container>
@@ -175,4 +175,5 @@ export default {
 </script>
 
 <style>
+
 </style>

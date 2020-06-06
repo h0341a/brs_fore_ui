@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div id="home">
     <div style="padding-top:0px;">
       <v-toolbar dense>
         <v-tabs v-model="tab" background-color="primary" dark>
@@ -49,6 +49,14 @@
       {{snackbar.text}}
       <v-btn dark text @click="snackbar.visible = false">Close</v-btn>
     </v-snackbar>
+    <v-btn
+      v-if="currPageData!=null && currPageData.hasNextPage"
+      @click="getNextPageData"
+      block
+      color="secondary"
+      dark
+    >点击加载更多</v-btn>
+    <v-btn v-else block disabled>没有更多了</v-btn>
   </div>
 </template>
 
@@ -59,6 +67,8 @@ export default {
   name: "Home",
   data() {
     return {
+      page: 1,
+      pageSize: 8,
       snackbar: {
         visible: false,
         status: "",
@@ -111,15 +121,33 @@ export default {
     };
   },
   created() {
-    getHomeRecommends().then(resp => {
+    getHomeRecommends({ page: this.page }).then(resp => {
       if (resp.data.success) {
         this.currPageData = resp.data.data;
+        this.page += 1;
       } else {
         this.snackbar.visible = true;
         this.snackbar.status = "error";
         this.snackbar.text = "获取首页数据失败，原因为:" + resp.data.errMsg;
       }
     });
+  },
+  methods: {
+    getNextPageData() {
+      getHomeRecommends({ page: this.page }).then(resp => {
+        if (resp.data.success) {
+          for (const i in resp.data.data.list) {
+            this.currPageData.list.push(resp.data.data.list[i]);
+            this.currPageData.hasNextPage = resp.data.data.hasNextPage;
+          }
+          this.page += 1;
+        } else {
+          this.snackbar.visible = true;
+          this.snackbar.status = "error";
+          this.snackbar.text = "获取首页数据失败，原因为:" + resp.data.errMsg;
+        }
+      });
+    }
   },
   components: {
     BookCard

@@ -1,5 +1,5 @@
 <template>
-  <v-card width="86.4" height="124.8">
+  <v-card width="86.4">
     <v-img
       :src="book.coverUrl"
       class="white--text align-end"
@@ -25,21 +25,10 @@ export default {
 <style>
 .book-title {
   margin-top: 6px;
-  font-size: 13px;
-  color: slategrey;
-  width: 100px;
-  overflow: hidden;
-  height: 36px;
-  display: -webkit-box;
-  display: -moz-box;
   text-overflow: ellipsis;
-  -webkit-line-clamp: 2;
-  -moz-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-  -webkit-text-size-adjust: none;
-  box-orient: vertical;
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
   height: auto;
-  max-height: 36px;
 }
 </style>

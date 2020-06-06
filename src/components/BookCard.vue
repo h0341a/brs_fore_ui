@@ -11,6 +11,10 @@
       <v-card-title v-text="book.bookName"></v-card-title>
     </v-img>
     <v-card-actions>
+      <div style="cursor:pointer;">
+        推荐人:
+        <span style="text-decoration: underline;color:green">{{book.nickname}}</span>
+      </div>
       <v-spacer></v-spacer>
       <v-btn @click="toStar" icon>
         <v-icon v-if="star" color="red">mdi-heart</v-icon>
@@ -20,16 +24,8 @@
         <v-icon v-if="collection" color="red">mdi-bookmark</v-icon>
         <v-icon v-else>mdi-bookmark</v-icon>
       </v-btn>
-      <v-btn icon @click="show = !show">
-        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-      </v-btn>
+      <v-btn icon @click="show = !show">查看</v-btn>
     </v-card-actions>
-    <v-expand-transition>
-      <div v-show="show">
-        <v-divider></v-divider>
-        <v-card-text>{{book.nickname}} say:{{book.content}}</v-card-text>
-      </div>
-    </v-expand-transition>
   </v-card>
 </template>
 

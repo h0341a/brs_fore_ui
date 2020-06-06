@@ -33,11 +33,11 @@ export const getUserInfo = () => axios.get("/user/info")
 /**
  * 获取用户的收藏
  */
-export const getUserCollection = () => axios.get('/user/collect')
+export const getUserCollection = params => axios.get('/user/collect', { params: params })
 /**
  * 获取用户的推荐
  */
-export const getUserRecommends = () => axios.get('/user/recommends')
+export const getUserRecommends = params => axios.get('/user/recommends', { params: params })
 /** 
  * 上传用户的头像
  */

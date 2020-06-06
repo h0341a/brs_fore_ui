@@ -1,6 +1,6 @@
 <template>
   <div style="padding-top:10px">
-    <v-card elevation="12" class="mx-auto" max-width="98%" min-height="640px">
+    <v-card elevation="12" class="mx-auto" min-height="640px" max-width="98%">
       <v-card-title>我的书架</v-card-title>
       <v-divider></v-divider>
       <div style="padding-left:20px">
@@ -32,6 +32,13 @@
       {{snackbar.text}}
       <v-btn dark text @click="snackbar.visible">Close</v-btn>
     </v-snackbar>
+    <v-btn
+      v-if="currPageData!=null && currPageData.hasNextPage"
+      @click="getNextPageData"
+      block
+      color="secondary"
+      dark
+    >点击加载更多</v-btn>
   </div>
 </template>
 
@@ -48,7 +55,8 @@ export default {
         text: ""
       },
       currPageNumber: 0,
-      pageSize: 8,
+      page: 1,
+      pageSize: 20,
       currPageData: null
     };
   },
@@ -56,15 +64,39 @@ export default {
     SmallBookCard
   },
   created() {
-    getUserCollection().then(resp => {
-      if (resp.data.success) {
-        this.currPageData = resp.data.data;
-      } else {
-        this.snackbar.visible = true;
-        this.snackbar.status = "error";
-        this.snackbar.text = "获取用户收藏书籍失败,原因为:" + resp.data.errMsg;
+    getUserCollection({ page: this.page, pageSize: this.pageSize }).then(
+      resp => {
+        if (resp.data.success) {
+          this.page += 1;
+          this.currPageData = resp.data.data;
+        } else {
+          this.snackbar.visible = true;
+          this.snackbar.status = "error";
+          this.snackbar.text =
+            "获取用户收藏书籍失败,原因为:" + resp.data.errMsg;
+        }
       }
-    });
+    );
+  },
+  methods: {
+    getNextPageData() {
+      getUserCollection({ page: this.page, pageSize: this.pageSize }).then(
+        resp => {
+          if (resp.data.success) {
+            this.page += 1;
+            for (const i in resp.data.data.list) {
+              this.currPageData.list.push(resp.data.data.list[i]);
+            }
+            this.currPageData.hasNextPage = resp.data.data.hasNextPage;
+          } else {
+            this.snackbar.visible = true;
+            this.snackbar.status = "error";
+            this.snackbar.text =
+              "获取用户收藏书籍失败,原因为:" + resp.data.errMsg;
+          }
+        }
+      );
+    }
   }
 };
 </script>
