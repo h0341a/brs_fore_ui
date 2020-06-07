@@ -13,7 +13,10 @@
     <v-card-actions>
       <div style="cursor:pointer;">
         推荐人:
-        <span style="text-decoration: underline;color:green">{{book.nickname}}</span>
+        <span
+          @click="showUserHome = !showUserHome"
+          style="text-decoration: underline;color:green"
+        >{{book.nickname}}</span>
       </div>
       <v-spacer></v-spacer>
       <v-btn @click="toStar" icon>
@@ -24,12 +27,21 @@
         <v-icon v-if="collection" color="red">mdi-bookmark</v-icon>
         <v-icon v-else>mdi-bookmark</v-icon>
       </v-btn>
-      <v-btn icon @click="show = !show">查看</v-btn>
+      <v-btn icon>查看</v-btn>
     </v-card-actions>
+    <v-dialog
+      @click:outside="showUserHome = false"
+      persistent
+      v-model="showUserHome"
+      max-width="98%"
+    >
+      <UserHome @closeUserHome="showUserHome=false" v-bind:uid="book.uid"></UserHome>
+    </v-dialog>
   </v-card>
 </template>
 
 <script>
+import UserHome from "../components/DetailsCard/ProfileDetails";
 import {
   isStar,
   isCollection,
@@ -42,7 +54,7 @@ export default {
   props: ["book"],
   data() {
     return {
-      show: false,
+      showUserHome: false,
       star: false,
       collection: false
     };
@@ -78,6 +90,9 @@ export default {
     }
   },
   methods: {
+    openUserHome() {
+      this.showUserHome = true;
+    },
     toStar() {
       if (this.$store.state.isLogin) {
         if (this.star) {
@@ -116,6 +131,9 @@ export default {
         this.$store.commit("updateShowFormState");
       }
     }
+  },
+  components: {
+    UserHome
   }
 };
 </script>

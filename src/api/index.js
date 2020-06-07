@@ -1,6 +1,7 @@
 import axios from './axios'
 
 
+export const getUserDynamic = params => axios.get("/" + params + "/dynamic")
 /**
  * 获取首页数据
  */
