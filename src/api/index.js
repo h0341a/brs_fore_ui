@@ -1,7 +1,11 @@
 import axios from './axios'
 
 
-export const getUserDynamic = params => axios.get("/" + params + "/dynamic")
+export const getUserDynamic = params => axios.get("/dynamic/" + params)
+export const getUserDynamicInfo = params => axios.get("/info/" + params)
+export const followUser = params => axios.post("/user/follow", params)
+export const cancelFollow = params => axios.delete("/user/follow/" + params)
+export const hasRelation = params => axios.get("/user/relation", { params: params })
 /**
  * 获取首页数据
  */
