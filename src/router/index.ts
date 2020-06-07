@@ -10,7 +10,7 @@ const Home = () => import('../views/Home.vue')
 const Friend = () => import('../views/Friend.vue')
 const Collection = () => import('../views/Collection.vue')
 const Recommend = () => import('../views/Recommend.vue')
-
+const ShowBook = () => import('../views/ShowBook.vue')
 const routes: Array<RouteConfig> = [
   {
     path: '/login',
@@ -26,6 +26,10 @@ const routes: Array<RouteConfig> = [
         component: Home
       },
       {
+        path: '/book/:id',
+        component: ShowBook
+      },
+      {
         path: '/home',
         component: Home
       },
@@ -33,7 +37,7 @@ const routes: Array<RouteConfig> = [
         path: '/friends',
         component: Friend,
         meta: {
-          requiresAuth: true
+          // requiresAuth: true
         }
       },
       {

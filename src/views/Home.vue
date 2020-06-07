@@ -117,10 +117,7 @@ export default {
         }
       ],
       tab: null,
-      items: [
-        { tab: "最新推荐", content: "Tab 1 Content" },
-        { tab: "新书资讯", content: "Tab 1 Content" }
-      ]
+      items: [{ tab: "最新推荐", content: "Tab 1 Content" }]
     };
   },
   created() {
