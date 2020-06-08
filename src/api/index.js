@@ -1,6 +1,9 @@
 import axios from './axios'
 
 
+export const getFriendList = () => axios.get("/user/friends")
+export const getMsgList = params => axios.get("/user/msgList", { params: params })
+export const sendMsg = params=>axios.post("/user/msg", params)
 export const getUserDynamic = params => axios.get("/dynamic/" + params)
 export const getUserDynamicInfo = params => axios.get("/info/" + params)
 export const followUser = params => axios.post("/user/follow", params)

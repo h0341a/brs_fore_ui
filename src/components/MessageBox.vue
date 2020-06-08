@@ -1,83 +1,94 @@
 <template>
   <v-card>
-    <v-list subheader>
-      <v-subheader>A与B的聊天盒</v-subheader>
+    <v-card>
+      <v-list subheader>
+        <v-subheader>A与B的聊天盒</v-subheader>
+        <v-divider />
+        <div v-for="msg in msgList" :key="msg.label">
+          <v-list-item v-if="!msg.myself">
+            <v-avatar>
+              <v-img :src="userData.avatarUrl" />
+            </v-avatar>
+            <div style="padding-top:20px;width:48%;">
+              <v-textarea
+                v-model="msg.content"
+                readonly
+                filled
+                :rows="1"
+                auto-grow
+                dense
+                outlined
+                rounded
+                :label="formatDate(msg.sendDate)"
+              ></v-textarea>
+            </div>
+          </v-list-item>
+          <v-list-item v-else>
+            <div style="width:50%"></div>
+            <div style="padding-top:20px;width:40%;">
+              <v-textarea
+                filled
+                :rows="1"
+                v-model="msg.content"
+                auto-grow
+                dense
+                outlined
+                rounded
+                reverse
+                :label="formatDate(msg.sendDate)"
+              ></v-textarea>
+            </div>
+            <v-avatar>
+              <v-img :src="myselfAvatarUrl" />
+            </v-avatar>
+          </v-list-item>
+        </div>
+      </v-list>
       <v-divider />
-      <v-list-item>
-        <v-avatar>
-          <v-img src="https://cdn.vuetifyjs.com/images/lists/3.jpg" />
-        </v-avatar>
-        <div style="padding-top:20px;width:88%;">
-          <v-textarea
-            v-model="message"
-            readonly
-            filled
-            :rows="1"
-            auto-grow
+      <v-card-actions style="padding:0 8px 0 8px">
+        <div style="padding-top:25px;width:100%">
+          <v-text-field
+            v-model="msg.content"
+            single-line
             dense
-            outlined
-            rounded
-            label="17:02"
-          ></v-textarea>
-        </div>
-      </v-list-item>
-      <v-list-item>
-        <v-avatar>
-          <v-img src="https://cdn.vuetifyjs.com/images/lists/3.jpg" />
-        </v-avatar>
-        <div style="padding-top:20px;">
-          <v-textarea
-            v-model="message"
-            readonly
-            filled
-            :rows="1"
             auto-grow
-            dense
             outlined
-            rounded
-            label="17:02"
-          ></v-textarea>
+            rows="1"
+            row-height="15"
+          ></v-text-field>
         </div>
-      </v-list-item>
-      <v-list-item>
-        <div style="width:50%"></div>
-        <div style="padding-top:20px;width:40%;">
-          <v-textarea
-            filled
-            :rows="1"
-            v-model="message2"
-            auto-grow
-            dense
-            outlined
-            rounded
-            reverse
-            label="17:02"
-          ></v-textarea>
-        </div>
-
-        <v-avatar>
-          <v-img src="https://cdn.vuetifyjs.com/images/lists/3.jpg" />
-        </v-avatar>
-      </v-list-item>
-    </v-list>
-    <v-divider />
-    <v-card-actions style="padding:0 8px 0 8px">
-      <div style="padding-top:25px;width:100%">
-        <v-text-field single-line dense auto-grow outlined rows="1" row-height="15"></v-text-field>
-      </div>
-      <v-btn> 发送</v-btn>
-    </v-card-actions>
+        <v-btn @click="send">发送</v-btn>
+      </v-card-actions>
+    </v-card>
   </v-card>
 </template>
 
 <script>
+import { getMsgList, sendMsg, getUserAvatarUrl } from "../api/index";
 export default {
-  data: () => ({
-    message:
-      "HeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHey!",
-    message2: "12312"
-  }),
-
+  props: ["userData"],
+  data() {
+    return {
+      myselfAvatarUrl: "",
+      msg: {
+        targetId: this.userData.uid,
+        content: ""
+      },
+      msgList: null
+    };
+  },
+  created() {
+    getMsgList({ targetId: this.userData.uid }).then(resp => {
+      if (resp.data.success) {
+        this.msgList = resp.data.data;
+      }
+    });
+    getUserAvatarUrl().then(resp => {
+      if (resp.data.success) {
+        this.myselfAvatarUrl = resp.data.data;
+      }
+    });
+  },
   computed: {
     icon() {
       return this.icons[this.iconIndex];
@@ -85,23 +96,34 @@ export default {
   },
 
   methods: {
-    toggleMarker() {
-      this.marker = !this.marker;
+    send() {
+      sendMsg(this.msg).then(resp => {
+        if (resp.data.success) {
+          getMsgList({ targetId: this.userData.uid }).then(resp => {
+            if (resp.data.success) {
+              this.msgList = resp.data.data;
+            }
+          });
+          this.msg.content = "";
+        }
+      });
     },
-    sendMessage() {
-      this.resetIcon();
-      this.clearMessage();
-    },
-    clearMessage() {
-      this.message = "";
-    },
-    resetIcon() {
-      this.iconIndex = 0;
-    },
-    changeIcon() {
-      this.iconIndex === this.icons.length - 1
-        ? (this.iconIndex = 0)
-        : this.iconIndex++;
+    formatDate(dateStr) {
+      const date = new Date(dateStr);
+      const YY = date.getFullYear() + "-";
+      const MM =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      const DD = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+      const hh =
+        (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":";
+      const mm =
+        (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
+        ":";
+      const ss =
+        date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      return YY + MM + DD + " " + hh + mm + ss;
     }
   }
 };

@@ -37,7 +37,7 @@ const routes: Array<RouteConfig> = [
         path: '/friends',
         component: Friend,
         meta: {
-          // requiresAuth: true
+          requiresAuth: true
         }
       },
       {
