@@ -1,14 +1,16 @@
 import axios from './axios'
 
 
+export const getBookDetails = params => axios.get("/book/" + params)
 export const getFriendList = () => axios.get("/user/friends")
 export const getMsgList = params => axios.get("/user/msgList", { params: params })
-export const sendMsg = params=>axios.post("/user/msg", params)
+export const sendMsg = params => axios.post("/user/msg", params)
 export const getUserDynamic = params => axios.get("/dynamic/" + params)
 export const getUserDynamicInfo = params => axios.get("/info/" + params)
 export const followUser = params => axios.post("/user/follow", params)
 export const cancelFollow = params => axios.delete("/user/follow/" + params)
 export const hasRelation = params => axios.get("/user/relation", { params: params })
+
 /**
  * 获取首页数据
  */
@@ -60,6 +62,7 @@ export const deleteCacheImg = params => axios.delete("/img", { params: params })
  * 上传用户的推荐
  */
 export const uploadUserRecommend = params => axios.post('/user/recommend', params)
+export const uploadRecommendForBook = params => axios.post('/user/book/recommend', params)
 export const getHomeRecommends = params => axios.get('/recommends', { params: params })
 export const isStar = params => axios.get('/user/isStar', { params: params })
 export const isCollection = params => axios.get('/user/isCollection', { params: params })

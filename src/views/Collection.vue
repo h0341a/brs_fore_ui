@@ -10,6 +10,7 @@
             :key="book.label"
             cols="auto"
             sm="2"
+            @click="$router.push('/book/'+ book.id)"
             md="2"
             lg="1"
           >

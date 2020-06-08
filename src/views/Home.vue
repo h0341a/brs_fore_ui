@@ -30,7 +30,7 @@
                   md="4"
                   lg="3"
                 >
-                  <BookCard v-bind:book="book"></BookCard>
+                <BookCard v-bind:book="book"></BookCard>
                 </v-col>
               </v-row>
             </div>

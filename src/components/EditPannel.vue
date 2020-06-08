@@ -92,7 +92,7 @@
       <v-card>
         <v-card-title class="headline">最后一次确认</v-card-title>
 
-        <v-card-text>推荐被提交后将会交由管理员用户审核，请耐心等待审核结果。审核通过的概率取决于你现在填写内容的价值，确认提交吗？</v-card-text>
+        <v-card-text>你账号的价值可能会因为你此次填写内容增长或降低，确认提交吗？</v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>

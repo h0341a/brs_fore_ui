@@ -8,42 +8,41 @@
             <template v-slot:activator="{ on }">
               <v-icon color="primary" dark v-on="on">mdi-help-circle-outline</v-icon>
             </template>
-            <span>如果你的关注里已经有了该好友，那么在关注我的列表项中不会出现该好友</span>
+            <span>如果你的关注里已经有了该好友，那么在关注我的列表项中不会出现该好友。</span>
           </v-tooltip>
         </v-subheader>
-        <v-list-group prepend-icon="mdi-account-circle" value="true">
-          <template v-slot:activator>
-            <v-list-item-title>我关注的({{myFollows.length}})</v-list-item-title>
-          </template>
+        <v-list-item-group prepend-icon="mdi-account-circle" value="true">
           <v-list-item
-            @click="openMessageBox(item.uid,item.avatarUrl)"
-            v-for="item in myFollows"
-            :key="item.label"
+            @click="openMessageBox(item.uid,item.avatarUrl, index)"
+            v-for="(item,index) in myFollows"
+            :key="index"
             link
           >
             <v-list-item-avatar>
               <v-img :src="item.avatarUrl"></v-img>
             </v-list-item-avatar>
             <v-list-item-title v-text="item.nickname"></v-list-item-title>
-            <v-list-item-icon>
-              <v-icon color="black" small>mdi-chat</v-icon>
+            <v-list-item-icon @click="item.hasMsg = false">
+              <v-icon v-if="item.hasMsg" color="red" small>mdi-chat</v-icon>
+              <v-icon v-else small>mdi-chat</v-icon>
             </v-list-item-icon>
           </v-list-item>
-        </v-list-group>
-        <v-list-group prepend-icon="mdi-account-circle">
-          <template v-slot:activator>
-            <v-list-item-title>关注我的({{followMes.length}})</v-list-item-title>
-          </template>
-          <v-list-item v-for="item in followMes" :key="item.label" link>
+          <v-list-item
+            @click="openMessageBox(item.uid,item.avatarUrl, index)"
+            v-for="(item,index) in followMes"
+            :key="index.label"
+            link
+          >
             <v-list-item-avatar>
               <v-img :src="item.avatarUrl"></v-img>
             </v-list-item-avatar>
             <v-list-item-title v-text="item.nickname"></v-list-item-title>
-            <v-list-item-icon>
-              <v-icon color="black" small>mdi-chat</v-icon>
+            <v-list-item-icon @click="item.hasMsg = false">
+              <v-icon v-if="item.hasMsg" color="red" small>mdi-chat</v-icon>
+              <v-icon v-else small>mdi-chat</v-icon>
             </v-list-item-icon>
           </v-list-item>
-        </v-list-group>
+        </v-list-item-group>
       </v-list>
     </v-card>
     <v-dialog
@@ -67,8 +66,8 @@ export default {
       showMessageBox: false,
       passId: null,
       otherUserData: {},
-      myFollows: ["1"],
-      followMes: ["1"],
+      myFollows: [],
+      followMes: [],
       items: [
         {
           active: true,
@@ -107,10 +106,11 @@ export default {
     });
   },
   methods: {
-    openMessageBox(uid, avatarUrl) {
+    openMessageBox(uid, avatarUrl, index) {
       this.showMessageBox = true;
       this.otherUserData.uid = uid;
       this.otherUserData.avatarUrl = avatarUrl;
+      this.myFollows[index].hasMsg = false;
     }
   },
   components: {

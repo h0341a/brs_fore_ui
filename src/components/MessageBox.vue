@@ -74,7 +74,7 @@ export default {
         targetId: this.userData.uid,
         content: ""
       },
-      msgList: null
+      msgList: []
     };
   },
   created() {

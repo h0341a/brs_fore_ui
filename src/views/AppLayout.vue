@@ -4,17 +4,18 @@
       <v-app-bar-nav-icon v-if="!drawer" @click="drawer=!drawer"></v-app-bar-nav-icon>
       <v-icon v-else @click="drawer=!drawer">mdi-arrow-expand-left</v-icon>
       <v-spacer></v-spacer>
-      <div style="padding:30px 20px 0 0 ">
-        <v-text-field
-          v-model="search"
-          :loading="loading"
-          flat
-          clearable
-          dense
-          solo
-          label="查询:书籍、好友等"
-          prepend-inner-icon="mdi-magnify"
-        ></v-text-field>
+      <div v-if="true" style="padding:0 20px 0 0 ">
+        <v-tooltip top>
+          <template v-slot:activator="{ on }">
+            <v-icon large v-on="on">mdi-email</v-icon>
+          </template>
+          <span>登陆后，当你有未读的消息时提示你</span>
+        </v-tooltip>
+      </div>
+      <div @click="$router.push('/friends')" v-else style="padding:0 20px 0 0 ">
+        <v-badge color="red" overlap>
+          <v-icon large>mdi-email</v-icon>
+        </v-badge>
       </div>
       <v-avatar
         v-if="!this.$store.state.isLogin"
@@ -175,5 +176,4 @@ export default {
 </script>
 
 <style>
-
 </style>
