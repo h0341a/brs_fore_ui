@@ -31,7 +31,7 @@
       <v-list three-line>
         <template v-for="(recommend,index) in book.recommendVoList">
           <v-divider :key="index"></v-divider>
-          <v-list-item :key="recommend.title" @click="1">
+          <v-list-item @click="openDetailsBox(recommend)" :key="recommend.title">
             <v-list-item-avatar>
               <v-img :src="recommend.avatarUrl"></v-img>
             </v-list-item-avatar>
@@ -73,11 +73,20 @@
       {{ snackbar.text }}
       <v-btn dark text @click="snackbar.visible = false">Close</v-btn>
     </v-snackbar>
+    <v-dialog
+      @click:outside="showDetailsBox = !showDetailsBox"
+      persistent
+      v-model="showDetailsBox"
+      max-width="820px"
+    >
+      <RecommendDetails v-bind:recommend="passRecommend"></RecommendDetails>
+    </v-dialog>
   </v-card>
 </template>
 
 <script>
 import { getBookDetails, uploadRecommendForBook } from "../api/index";
+import RecommendDetails from "../components/DetailsCard/RecommendDetails";
 export default {
   data() {
     return {
@@ -86,12 +95,14 @@ export default {
         status: "",
         text: ""
       },
+      passRecommend: [],
       formData: {
         bid: "",
         title: "",
         content: ""
       },
       showAddBox: false,
+      showDetailsBox: false,
       book: null
     };
   },
@@ -102,6 +113,10 @@ export default {
       } else {
         this.$store.commit("updateShowFormState");
       }
+    },
+    openDetailsBox(val) {
+      this.showDetailsBox = true;
+      this.passRecommend = val;
     },
     submitForm() {
       const bid = this.$route.params.id;
@@ -132,6 +147,9 @@ export default {
         this.book = resp.data.data;
       }
     });
+  },
+  components: {
+    RecommendDetails
   }
 };
 </script>
