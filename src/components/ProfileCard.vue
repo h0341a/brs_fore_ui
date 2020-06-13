@@ -194,7 +194,7 @@ export default {
             if (resp.data.success) {
               this.imgName = resp.data.data;
               this.newProfile.avatar =
-                "http://localhost:8090/img/" + this.imgName;
+                "http://207.148.17.53:8090/img/" + this.imgName;
             } else {
               formData = null;
             }

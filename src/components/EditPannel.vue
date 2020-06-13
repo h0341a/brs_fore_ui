@@ -149,7 +149,7 @@ export default {
             if (resp.data.success) {
               this.imgName = resp.data.data;
               this.recommendForm.coverUrl =
-                "http://localhost:8090/img/" + this.imgName;
+                "http://207.148.17.53:8090/" + this.imgName;
             } else {
               formData = null;
             }
