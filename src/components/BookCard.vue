@@ -28,7 +28,6 @@
         <v-icon v-if="collection" color="red">mdi-bookmark</v-icon>
         <v-icon v-else>mdi-bookmark</v-icon>
       </v-btn>
-      <v-btn icon>查看</v-btn>
     </v-card-actions>
     <v-dialog
       @click:outside="showUserHome = false"

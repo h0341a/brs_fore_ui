@@ -86,8 +86,6 @@ export default {
           this.star = resp.data.data;
         }
       });
-    } else {
-      console.log(1);
     }
   },
   methods: {

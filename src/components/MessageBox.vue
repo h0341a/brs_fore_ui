@@ -69,6 +69,7 @@ export default {
   props: ["userData"],
   data() {
     return {
+      timer: "",
       myselfAvatarUrl: "",
       msg: {
         targetId: this.userData.uid,
@@ -89,13 +90,25 @@ export default {
       }
     });
   },
+  mounted() {
+    this.timer = setInterval(this.getMsg, 5000);
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
+  },
   computed: {
     icon() {
       return this.icons[this.iconIndex];
     }
   },
-
   methods: {
+    getMsg() {
+      getMsgList({ targetId: this.userData.uid }).then(resp => {
+        if (resp.data.success) {
+          this.msgList = resp.data.data;
+        }
+      });
+    },
     send() {
       sendMsg(this.msg).then(resp => {
         if (resp.data.success) {

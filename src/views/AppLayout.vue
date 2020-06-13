@@ -109,6 +109,7 @@ export default {
     return {
       search: "",
       showProfileCard: false,
+      hasMsg: false,
       snackbar: {
         visible: false,
         text: ""
